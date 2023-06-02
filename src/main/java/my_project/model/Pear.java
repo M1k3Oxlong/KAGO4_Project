@@ -2,18 +2,21 @@ package my_project.model;
 
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
+import my_project.Config;
 
-public class Pear extends GraphicalObject {
+public class Pear extends Fruit {
 
-    //Attribute
+    private boolean toTheRight;
+    private double directionTimer;
     private double speed;
 
     public Pear(double x, double y){
-        this.x = x;
-        this.y = y;
-        speed = 150;
+        super(x,y);
         width = 25;
-        height = 35;
+        height = 305;
+        toTheRight= false;
+        directionTimer=0;
+        speed=150;
     }
 
     @Override
@@ -24,11 +27,34 @@ public class Pear extends GraphicalObject {
         drawTool.drawRectangle(x,y,width,height);
     }
 
-    @Override
-    public void update(double dt) {
-        //TODO 03 Eine Birne soll von oben herab fallen. Sobald sie unten den Bildschirmrand berührt wird die Methode jumpBack() aufgerufen (siehe TODO 04).
+    public void update(double dt){
+        super.update(dt);
+        movement(dt);
+    }
+
+    public void movement(double dt){
+        directionTimer+=dt;
+        if(directionTimer>1.5){
+            directionTimer=0;
+            toTheRight=!toTheRight;
+        }
+        if(toTheRight==true){
+            if(x<=1000){
+                x+=dt*speed;
+            }
+        }else{
+            if(x>=0){
+                x-=dt*speed;
+            }
+        }
     }
 
     //TODO 04 Lege eine Methode jumpBack() an, die bei Aufruf das Pear-Objekt oben am oberen Bildschirmrand an einer zufälligen x-Position positioniert.
+    public void jumpBack(){
+        y=-50;
+        x = Math.random()*975;
+    }
+
+
 }
 

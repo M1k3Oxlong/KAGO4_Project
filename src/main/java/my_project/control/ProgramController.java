@@ -39,12 +39,12 @@ public class ProgramController {
      */
     public void startProgram() {
         double xPos = Math.random()*(Config.WINDOW_WIDTH-50) + 50;
-        double yPos = Math.random()*(Config.WINDOW_HEIGHT-50) + 50;
+        double yPos = -50;
         apple01 = new Apple(xPos, yPos);
         viewController.draw(apple01);
 
         xPos = Math.random()*(Config.WINDOW_WIDTH-50) + 50;
-        yPos = Math.random()*(Config.WINDOW_HEIGHT-50) + 50;
+
         pear01 = new Pear(xPos, yPos);
         viewController.draw(pear01);
 
@@ -59,10 +59,32 @@ public class ProgramController {
      */
     public void updateProgram(double dt){
         //TODO 08 Nachdem Sie die TODOs 01-07 erledigt haben: Setzen Sie um, dass im Falle einer Kollision (siehe TODO 06 bzw. 07) zwischen dem Spieler und dem Apfel bzw. dem Spieler und der Birne, die jumpBack()-Methode von dem Apfel bzw. der Birne aufgerufen wird.
+        if(checkAndHandleCollision(pear01)){
+            pear01.jumpBack();
+            player01.antiScore();
+        }
+        if(checkAndHandleCollision(apple01)){
+            apple01.jumpBack();
+            player01.score();
+        }
         //Weitere TODOs folgen und werden im Unterricht formuliert. Spätestens nach TODO 08 sollte der Aufbau des Projekts durchdacht werden.
     }
 
     //TODO 06 Fügen Sie eine Methode checkAndHandleCollision(Apple a) hinzu. Diese gibt true zurück, falls das Apple-Objekt mit dem Player-Objekt kollidiert. Nutzen Sie hierzu die collidesWith-Methode der Klasse GraphicalObject.
+    public boolean checkAndHandleCollision(Apple a){
+        if(player01.collidesWith(a)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     //TODO 07 Fügen Sie eine Methode checkAndHandleCollision(Pear p) hinzu. Diese gibt true zurück, falls das Pear-Objekt mit dem Player-Objekt kollidiert. Nutzen Sie hierzu die collidesWith-Methode der Klasse GraphicalObject.
+    public boolean checkAndHandleCollision(Pear p){
+        if(player01.collidesWith(p)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
